@@ -10,7 +10,7 @@
 
 `pip install uuid`
 
-`pip install config parser`
+`pip install configparser`
 
 - Define settings in config.ini
 
