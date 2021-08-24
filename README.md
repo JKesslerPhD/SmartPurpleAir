@@ -7,7 +7,9 @@
 - Install Dependencies:
 
 `pip install requests`
+
 `pip install uuid`
+
 `pip install config parser`
 
 - Define settings in config.ini
