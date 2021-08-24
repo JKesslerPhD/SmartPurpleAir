@@ -34,5 +34,5 @@ python aqi_trigger.py
 
 ## Details
 
-The script is useful for triggering TP-Link smart devices based on Purple Air sensor data.  If you have a sensor in your house, or close to your house, this will allow you to turn various things on or off.  I do not have any TP-Link Kasa lights, but you could easily modify the code to create your own "Real Time" AQI indicator in your house with a smart LED light.  I'm using in alongside my Purple Air monitor to improve the air qualiy in my house, based on specific events.
+The script is useful for triggering TP-Link smart devices based on Purple Air sensor data.  If you have a sensor in your house, or close to your house, this will allow you to turn various things on or off.  I do not have any TP-Link Kasa lights, but you could easily modify the code to create your own "Real Time" AQI indicator in your house with a smart LED light.  I've implemented this script for use with my Purple Air monitor to improve the air qualiy of my house based on specific events.
 
