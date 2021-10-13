@@ -12,6 +12,11 @@
 
 `pip install config parser`
 
+`pip install matplotlib`
+
+`pip install numpy`
+
+
 - Define settings in config.ini
 
 This program utilizes your TP-Link Kasa login information, as well as a specific Purple Air Sensor to function.  You will need to find your TP-Link login information and enter that into the `config.ini` file.  For the program to work, you will need:
@@ -25,8 +30,11 @@ A sample `config_example.ini` has been created - copy it or create a new `config
 
 ## Running the Script
 
-The `aqi_trigger.py` file contains the example code to turn a specific TP-Link device on and off based on an AQI reading of greater than 30 for a specified purple air sensor.
-For my use case, I've gone ahead and set this script up on a cloud server, and have used a cron job to run the script every 5 minutes.  If the AQI in my house goes above 30, a TP-Link plug will turn on.  This TP-Link plug is connected to a BlueAir 211 air purifier. 
+The `aqi_trigger.py` file contains the example code to turn a specific TP-Link device on and off based on an AQI readings for specified purple air sensors.
+For my use case, I've gone ahead and set this script up on a cloud server, and have used a cron job to run the script every 5 minutes.  If the AQI in my house goes above 30, a TP-Link plug will turn on.  This TP-Link plug is connected to a BlueAir 211 air purifier.
+Additionally, I bought a "smart" air purifier to see how it would compare to my BlueAir setup. Given some days in CA with extremely poor air quality, I found a second air purifier was necessary to improve indoor air quality.  This is a Carrier air purifier, which has a
+built-in PM monitor.  This monitor is not anywhere near as accurate as the Purple Air monitor inside my home.  As such, I've set this air purifier to turn on in the event that outdoor air quality is not good, or in the event that my indoor air quality is not good.  Because
+this unit has an initial startup cycle, my off trigger for the unit is based on exceptionally high quality indoor and outdoor air quality. 
 
 ```sh
 python aqi_trigger.py
@@ -34,5 +42,7 @@ python aqi_trigger.py
 
 ## Details
 
-The script is useful for triggering TP-Link smart devices based on Purple Air sensor data.  If you have a sensor in your house, or close to your house, this will allow you to turn various things on or off.  I do not have any TP-Link Kasa lights, but you could easily modify the code to create your own "Real Time" AQI indicator in your house with a smart LED light.  I'm using in alongside my Purple Air monitor to improve the air qualiy in my house, based on specific events.
+The script is useful for triggering TP-Link smart devices based on Purple Air sensor data. I am using this alongside indoor and outdoor Purple Air monitors to improve the air quality in my home.  If you have a sensor in your house, or close to your house, this will allow you to turn various things on or off.  
+
+Additionally, I have modified the code to also allow for a TP-Link bulb to be used to reflect the Air Quality as indicated by a PA sensor.  This can be used to create your own "Real Time" AQI indicators in your house or elsewhere by using cheap, smart LED lights.
 

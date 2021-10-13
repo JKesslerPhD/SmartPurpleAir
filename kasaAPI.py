@@ -1,5 +1,6 @@
 import requests
 import uuid
+import json
 
 class TPLink():
     def __init__(self, username, password):
@@ -83,7 +84,10 @@ class TPLink():
         d = device_list.json()
         device_list = {}
         for element in d['result']['deviceList']:
-            device_list[element["alias"]] = KasaDevice(element["alias"], self.token, element["deviceId"])
+            if element['deviceType'] != "IOT.SMARTBULB":
+                device_list[element["alias"]] = KasaDevice(element["alias"], self.token, element["deviceId"])
+            else:
+                device_list[element["alias"]] = SmartBulb(element["alias"], self.token, element["deviceId"])
         return device_list
         
     def findDevice(self, kasa_name):
@@ -131,6 +135,7 @@ class KasaDevice():
             self.modifyKasaDeviceState(0)
         except:
             raise Exception("Unable to turn device '%s' off" % self.alias)
+            
         
     def modifyKasaDeviceState(self, deviceState):
         payload = {
@@ -144,6 +149,62 @@ class KasaDevice():
         r = requests.post(url="https://use1-wap.tplinkcloud.com/?token={}".format(self.token), json=payload)
     
     
-
+class SmartBulb(KasaDevice):
     
+    def ChangeColor(self, hue, saturation, value, deviceState=1):
+        light_state = {
+            "hue": hue,
+            "saturation": saturation,
+            "brightness": value,
+            "color_temp": 0,
+            "transition_period":0
+        }
+        
+        self.modifyKasaDeviceState(deviceState, light_state)
+        self.Brightness(20, deviceState)    
+        
+    def Brightness(self, value, deviceState=1):
+        """
+        
+
+        Parameters
+        ----------
+        value : int 0 to 100
+            DESCRIPTION: Will change the brightness from 0 to 100%
+
+        Returns
+        -------
+        None.
+
+        """
+        light_state = {
+                "brightness": value,
+                "transition_period":0
+            }
+            
+        self.modifyKasaDeviceState(deviceState, light_state)
+        
+    def modifyKasaDeviceState(self, deviceState, params = {}):
+        light_state = {
+                "on_off": deviceState,
+                "transition_period": 0,
+            }
+        
+        light_state.update(params)
+            
+        
+        payload = {
+                "method": "passthrough",
+                "params": {
+                    "deviceId": self.deviceID,
+                    "requestData":
+                        "{\"smartlife.iot.smartbulb.lightingservice\":{ \"transition_light_state\" : "+ json.dumps(light_state) +" }}"
+                }
+            }
+        r = requests.post(url="https://use1-wap.tplinkcloud.com/?token={}".format(self.token), json=payload)
+        return r
+            
+    
+
+
     
